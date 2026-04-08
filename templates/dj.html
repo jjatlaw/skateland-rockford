@@ -28,32 +28,78 @@
             </div>
         </div>
 
-        <h2 class="text-3xl font-semibold mb-8 flex items-center gap-3">
-            <i class="fas fa-headphones"></i> Current Song Requests
+        <!-- Active Requests -->
+        <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3 text-emerald-400">
+            <i class="fas fa-headphones"></i> Active Requests
         </h2>
 
-        <div class="space-y-4">
-            {% for song in songs %}
+        <div class="space-y-4 mb-12">
+            {% for song in songs if not song.is_flagged %}
             <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-7 flex justify-between items-center border border-white/20">
                 <div class="flex-1">
                     <div class="text-2xl font-semibold">{{ song.title }}</div>
                     <div class="text-white/80 text-lg">{{ song.artist }}</div>
                 </div>
+                
                 <div class="flex items-center gap-4">
                     <div class="text-4xl font-bold text-pink-400">{{ song.votes }}</div>
+                    
                     <form action="/dj/mark-played/{{ song.id }}" method="post">
-                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
+                        <button type="submit" 
+                                class="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
                             <i class="fas fa-check"></i> Played
                         </button>
                     </form>
+                    
                     <form action="/dj/flag/{{ song.id }}" method="post">
-                        <button type="submit" class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
+                        <button type="submit" 
+                                class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
                             <i class="fas fa-flag"></i> Flag
                         </button>
                     </form>
                 </div>
             </div>
             {% endfor %}
+        </div>
+
+        <!-- Flagged Songs -->
+        <h2 class="text-3xl font-semibold mb-6 flex items-center gap-3 text-red-400">
+            <i class="fas fa-flag"></i> Flagged Songs (Hidden from guests)
+        </h2>
+
+        <div class="space-y-4">
+            {% for song in songs if song.is_flagged %}
+            <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-7 flex justify-between items-center border border-red-500/30">
+                <div class="flex-1">
+                    <div class="text-2xl font-semibold line-through">{{ song.title }}</div>
+                    <div class="text-white/70 text-lg">{{ song.artist }}</div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="text-4xl font-bold text-pink-400">{{ song.votes }}</div>
+                    
+                    <form action="/dj/unflag/{{ song.id }}" method="post">
+                        <button type="submit" 
+                                class="bg-amber-600 hover:bg-amber-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
+                            <i class="fas fa-undo"></i> Unflag
+                        </button>
+                    </form>
+                    
+                    <form action="/dj/mark-played/{{ song.id }}" method="post">
+                        <button type="submit" 
+                                class="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
+                            <i class="fas fa-check"></i> Played
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            
+            {% if not any(s.is_flagged for s in songs) %}
+            <div class="text-center py-12 text-white/60 text-lg">
+                No flagged songs yet.
+            </div>
+            {% endif %}
         </div>
     </div>
 </body>

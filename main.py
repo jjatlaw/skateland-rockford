@@ -161,6 +161,17 @@ async def flyer_page(request: Request):
         context={}
     )
 
+# Unflag Route
+@app.post("/dj/unflag/{song_id}")
+async def unflag_song(song_id: int, username: str = Depends(verify_credentials)):
+    db = SessionLocal()
+    song = db.query(SongRequest).filter(SongRequest.id == song_id).first()
+    if song:
+        song.is_flagged = False
+        db.commit()
+    db.close()
+    return RedirectResponse("/dj", status_code=303)
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
