@@ -152,6 +152,13 @@ async def generate_qr():
     img_str = base64.b64encode(buffered.getvalue()).decode()
     return {"qr_base64": img_str}
 
+@app.get("/flyer", response_class=HTMLResponse)
+async def flyer_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="qr_flyer.html",
+        context={}
+    )
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

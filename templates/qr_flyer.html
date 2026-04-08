@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skateland Rockford - Scan to Request Songs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e40af, #831843);
+            font-family: system_ui, sans-serif;
+        }
+        .flyer {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            color: #1e3a8a;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+        .header {
+            background: linear-gradient(to right, #1e40af, #831843);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 bg-zinc-950">
+
+    <div class="flyer">
+        <!-- Header -->
+        <div class="header">
+            <img src="/static/logo.png" 
+                 alt="Skateland Rockford" 
+                 class="mx-auto mb-6 w-40 h-40 object-contain bg-white rounded-2xl p-4">
+            <h1 class="text-6xl font-black tracking-tighter">SKATELAND</h1>
+            <p class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-pink-300 -mt-4">ROCKFORD</p>
+            <p class="text-2xl mt-6 text-pink-200">Song Requests & Voting</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="p-12 text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-8">
+                Scan to Request Songs!
+            </h2>
+            
+            <div class="flex justify-center mb-10">
+                <div class="bg-white p-8 rounded-3xl shadow-xl">
+                    <img id="qr-image" 
+                         src="" 
+                         alt="QR Code" 
+                         class="w-80 h-80">
+                </div>
+            </div>
+
+            <div class="text-gray-600 text-xl max-w-md mx-auto">
+                <p class="mb-6">
+                    Open your camera or QR scanner app and scan this code to request songs and vote with everyone!
+                </p>
+                <p class="font-semibold text-pink-600">
+                    The more votes a song gets, the sooner it plays!
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-100 py-8 text-center text-gray-500 text-sm">
+            Skateland Rockford • Have fun and keep the music going!
+        </div>
+    </div>
+
+    <script>
+        // Fetch QR code from your live app
+        async function loadQR() {
+            try {
+                const res = await fetch('/qr');
+                const data = await res.json();
+                document.getElementById('qr-image').src = 
+                    `data:image/png;base64,${data.qr_base64}`;
+            } catch(e) {
+                console.error("Could not load QR");
+            }
+        }
+        loadQR();
+    </script>
+</body>
+</html>
