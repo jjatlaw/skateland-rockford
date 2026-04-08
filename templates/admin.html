@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skateland Rockford - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { 
+            background: linear-gradient(135deg, #1e40af, #831843); 
+            min-height: 100vh;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto p-8">
+
+        <div class="flex items-center gap-4 mb-10">
+            <img src="/static/logo.png" 
+                 alt="Skateland Logo" 
+                 class="w-20 h-20 rounded-2xl object-contain bg-white/20 p-2"
+                 onerror="this.src='https://via.placeholder.com/80x80/ffffff/1e3a8a?text=SR'">
+            <div>
+                <h1 class="text-4xl font-bold">Skateland Rockford</h1>
+                <p class="text-pink-300 text-xl">Admin Panel</p>
+            </div>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10 border border-white/30">
+            <h2 class="text-3xl font-semibold mb-8 flex items-center gap-3">
+                <i class="fas fa-chart-bar"></i> Monthly Top Requested Songs
+            </h2>
+            
+            <div class="space-y-4">
+                {% for stat in stats %}
+                <div class="bg-white/10 rounded-2xl p-6 flex justify-between items-center">
+                    <div class="text-xl">
+                        <span class="font-semibold">{{ stat.title }}</span>
+                        <span class="text-white/70"> — {{ stat.artist }}</span>
+                    </div>
+                    <div class="bg-pink-500 text-white px-6 py-2 rounded-full font-bold">
+                        {{ stat.request_count }} requests
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

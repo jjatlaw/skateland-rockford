@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skateland Rockford - DJ Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { 
+            background: linear-gradient(135deg, #1e40af, #831843); 
+            min-height: 100vh;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto p-8">
+
+        <div class="flex items-center gap-4 mb-10">
+            <img src="/static/logo.png" 
+                 alt="Skateland Logo" 
+                 class="w-20 h-20 rounded-2xl object-contain bg-white/20 p-2"
+                 onerror="this.src='https://via.placeholder.com/80x80/ffffff/1e3a8a?text=SR'">
+            <div>
+                <h1 class="text-4xl font-bold">Skateland Rockford</h1>
+                <p class="text-pink-300 text-xl">DJ Control Panel</p>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-semibold mb-8 flex items-center gap-3">
+            <i class="fas fa-headphones"></i> Current Song Requests
+        </h2>
+
+        <div class="space-y-4">
+            {% for song in songs %}
+            <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-7 flex justify-between items-center border border-white/20">
+                <div class="flex-1">
+                    <div class="text-2xl font-semibold">{{ song.title }}</div>
+                    <div class="text-white/80 text-lg">{{ song.artist }}</div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-4xl font-bold text-pink-400">{{ song.votes }}</div>
+                    <form action="/dj/mark-played/{{ song.id }}" method="post">
+                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
+                            <i class="fas fa-check"></i> Played
+                        </button>
+                    </form>
+                    <form action="/dj/flag/{{ song.id }}" method="post">
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
+                            <i class="fas fa-flag"></i> Flag
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
