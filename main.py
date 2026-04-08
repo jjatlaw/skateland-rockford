@@ -145,7 +145,7 @@ async def flag_song(song_id: int, username: str = Depends(verify_credentials)):
 # QR Code
 @app.get("/qr")
 async def generate_qr():
-    url = "https://your-app.onrender.com"   # We'll update this after deployment
+    url = "https://skateland-rockford.onrender.com"   # We'll update this after deployment
     qr = qrcode.make(url)
     buffered = BytesIO()
     qr.save(buffered, format="PNG")
