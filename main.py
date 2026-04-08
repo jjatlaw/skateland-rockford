@@ -145,13 +145,14 @@ async def flag_song(song_id: int, username: str = Depends(verify_credentials)):
 # QR Code
 @app.get("/qr")
 async def generate_qr():
-    url = "https://skateland-rockford.onrender.com"   # We'll update this after deployment
+    url = "https://skateland-rockford.onrender.com"
     qr = qrcode.make(url)
     buffered = BytesIO()
     qr.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue()).decode()
     return {"qr_base64": img_str}
 
+# Print-ready QR Flyer
 @app.get("/flyer", response_class=HTMLResponse)
 async def flyer_page(request: Request):
     return templates.TemplateResponse(
@@ -159,6 +160,7 @@ async def flyer_page(request: Request):
         name="qr_flyer.html",
         context={}
     )
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
